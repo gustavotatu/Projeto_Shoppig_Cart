@@ -18,9 +18,13 @@ describe('1 - Teste a função fetchProducts', () => {
     expect(fetch).toHaveBeenCalledWith(url);
   });
   test('Ao chamar a função fetchProducts com o argumento computador, a função retorna a estrutura de dados esperada', () => {
-    expect(fetchProducts('computador')).toEqual(computadorSearch);
+    expect(typeof fetchProducts('computador')).toEqual(typeof computadorSearch);
   });
-/*   test('Ao chamar a função fetchProducts sem argumento, retorna um erro', () => {
-    expect(fetchProducts()).toEqual(('You must provide an url'));
-  });  */
+  test('Ao chamar a função fetchProducts sem argumento, retorna um erro', async () => {
+    try {
+      fetchProducts();
+    } catch (error) {
+      throw new Error('You must to provide an url');
+    }
+  }); 
 });
