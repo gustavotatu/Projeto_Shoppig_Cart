@@ -1,7 +1,3 @@
-/* const fetchSimulator = require('../mocks/fetchSimulator');
-const computadorSearch = require('../mocks/search');
-const { results } = require('../mocks/search'); */
-
 const fetchProducts = async (computador) => {
   // seu código aqui
   try {

@@ -1,7 +1,8 @@
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 
-const { fetchProducts } = require('./helpers/fetchProducts');
+// Fique a vontade para modificar o código já escrito e criar suas próprias funções!
+
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
  * @param {string} imageSource - URL da imagem.
@@ -21,7 +22,7 @@ const { fetchProducts } = require('./helpers/fetchProducts');
  * @param {string} innerText - Texto do elemento.
  * @returns {Element} Elemento criado.
  */
- const createCustomElement = (element, className, innerText) => {
+const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
@@ -36,7 +37,7 @@ const { fetchProducts } = require('./helpers/fetchProducts');
  * @param {string} product.thumbnail - URL da imagem do produto.
  * @returns {Element} Elemento de produto.
  */
- const createProductItemElement = ({ id, title, thumbnail }) => {
+const createProductItemElement = ({ id, title, thumbnail }) => {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -53,9 +54,9 @@ const { fetchProducts } = require('./helpers/fetchProducts');
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
- const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
 
- /**
+/**
  * Função responsável por criar e retornar um item do carrinho.
  * @param {Object} product - Objeto do produto.
  * @param {string} product.id - ID do produto.
@@ -72,11 +73,13 @@ const createCartItemElement = ({ id, title, price }) => {
 };
 
 async function main() {
-// Fique a vontade para modificar o código já escrito e criar suas próprias funções!
   const json = await fetchProducts('computador');
   const products = json.results;
+  const items = document.getElementsByClassName('items')[0];
   for (let i = 0; i < products.length; i += 1) {
-    createProductItemElement(products[i]);
+    const sec = createProductItemElement(products[i]);
+    items.appendChild(sec);
+    console.log(sec);
   }
 } main();
 
