@@ -50,8 +50,8 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
 
   return section;
 };
-const req = fetchProducts('computador');
-createProductItemElement(req);
+
+createProductItemElement(fetchProducts('computador'));
 
 /**
  * Função que recupera o ID do produto passado como parâmetro.
