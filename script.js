@@ -68,19 +68,35 @@ const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', function () {
+    const cart = document.getElementsByClassName('cart__items')[0];
+    cart.removeChild(li); 
+  });
   return li;
 };
 
-async function main() {
+async function mainFP() {
   const json = await fetchProducts('computador');
-  const products = json.results;
+  const products = json.results; 
   const items = document.getElementsByClassName('items')[0];
   for (let i = 0; i < products.length; i += 1) {
     const sec = createProductItemElement(products[i]);
     items.appendChild(sec);
-    console.log(sec);
   }
-} main();
+}
+
+async function buttons() {
+  await mainFP();
+  const button = document.querySelectorAll('.item__add');
+  button.forEach(function (btn) {
+    btn.addEventListener('click', async function () {
+      const id = btn.parentNode.firstChild.innerText;
+      const product = await fetchItem(id);
+      const cartItem = createCartItemElement(product);
+      const orderedList = document.getElementsByClassName('cart__items')[0];
+      orderedList.appendChild(cartItem);
+    });
+  });
+} buttons();
 
 window.onload = () => { };
