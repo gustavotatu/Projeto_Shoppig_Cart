@@ -56,6 +56,21 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  */
 const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
 
+const itemPrices = [];
+
+const value = document.createElement('p');
+value.className = 'total-price';
+
+async function calcPrice() {
+  let result = 0;
+  for (let i = 0; i < itemPrices.length; i += 1) {
+    result += itemPrices[i];
+  }
+
+  value.innerText = `Preço final: ${result}`;
+  return value;
+}
+
 /**
  * Função responsável por criar e retornar um item do carrinho.
  * @param {Object} product - Objeto do produto.
@@ -70,7 +85,10 @@ const createCartItemElement = ({ id, title, price }) => {
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   li.addEventListener('click', function () {
     const cart = document.getElementsByClassName('cart__items')[0];
-    cart.removeChild(li); 
+    cart.removeChild(li);
+    const index = itemPrices.indexOf(price);
+    itemPrices[index] = 0;
+    calcPrice();
   });
   return li;
 };
@@ -92,9 +110,12 @@ async function buttons() {
     btn.addEventListener('click', async function () {
       const id = btn.parentNode.firstChild.innerText;
       const product = await fetchItem(id);
+      itemPrices.push(product.price);
       const cartItem = createCartItemElement(product);
       const orderedList = document.getElementsByClassName('cart__items')[0];
       orderedList.appendChild(cartItem);
+      const finalPrice = await calcPrice();
+      document.getElementsByClassName('cart')[0].appendChild(finalPrice);
     });
   });
 } buttons();
